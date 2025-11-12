@@ -10,7 +10,6 @@ DevOps professional focused on bridging development and operations to deliver sc
 
   </details>
 
-
 - Continuous Delivery/Deployment (CD) – Ensuring software is always in a deployable state and automating releases to production environments safely and efficiently.
 
   <details>
@@ -175,12 +174,116 @@ Default output format [None]: json
 
 - Once completed, your AWS CLI will be authenticated and ready to execute commands or apply Terraform scripts securely and automatically.
 
+### Creating key pair ssh
+
+#### 1) Open the AWS Management Console and go to the EC2 service.
+
+#### 2) In the left navigation pane, click Key Pairs under Network & Security.
+
+#### 3) Click Create key pair.
+
+#### 4) In the Name field, enter: Terraform.
+
+#### 5) Under File format, select .ppk for Putty .
+
+#### 6) Click Create key pair.
+
+#### 7) The browser will automatically download the Terraform.ppk file — save it in a secure location (e.g., C:\Users\<YourUser>\.ssh\Terraform.ppk).
 
 ### Creating an instance with Terraform
 
 #### 1) Download Terraform and configure the required environment variables to enable the execution of the terraform.exe file.
 
-#### 2) Create a dedicated directory for the Terraform project.
+#### 2) Configure the Terraform Provider
+
+Before deploying any infrastructure, it is necessary to configure the Terraform provider, which defines the cloud platform or service Terraform will interact with.
+  
+- Navigate to the directory where your Terraform project is located.
+- Create a configuration file named main.tf (or another name of your choice).
+- Define the provider you intend to use — for example, AWS. Terraform providers can be found on the Terraform Registry, which offers multiple options depending on your infrastructure needs.
+  <details>
+    <summary>Click to show details about </summary>
+    <img width="1044" height="538" alt="image" src="https://github.com/user-attachments/assets/73190f6b-2105-432d-90c7-bc047aeff28d" />
+    <img width="436" height="403" alt="image" src="https://github.com/user-attachments/assets/bb221670-931c-4fd5-8e8c-4576c6efa53f" />
+  </details>
+
+- Once the provider configuration is defined, initialize Terraform by running the following command in your project directory:
+  ```
+    terraform.exe init
+  ```
+
+
+  
+ #### 3)  – Create the AWS EC2 Instance Configuration
+
+Now that the provider is set up, the next step is to define the Terraform code that will create the EC2 instance on AWS.
+
+- Go to the Terraform Registry
+- Search for aws_instance under the Resources section.
+- Copy the example configuration snippet and adapt it for your project.
+  <details>
+    <summary>Click to show details about </summary>
+    <img width="1056" height="451" alt="image" src="https://github.com/user-attachments/assets/23afc317-9657-4763-b341-eeaef4aaa621" />
+    <img width="668" height="445" alt="image" src="https://github.com/user-attachments/assets/655a2c37-0975-460c-8f4f-c1ee98246243" />
+
+    ```
+      resource "aws_instance" "amb-prod" { ... }
+    ```
+    - resource → declares that Terraform will create or manage a resource.
+    - "aws_instance" → defines the type of resource (an EC2 virtual machine).
+    - "amb-prod" → the internal Terraform name (used for referencing this resource in other files).
+
+    ```
+      ami = "ami-0ecb62995f68bb549"
+    ```
+    <img width="917" height="271" alt="image" src="https://github.com/user-attachments/assets/d4d1d3d3-adb1-4fe3-9247-020c120d350e" />
+    - AMI (Amazon Machine Image) → the base operating system image used to launch the EC2 instance.This ID specifies which OS and preconfigured environment will be used (e.g., Ubuntu, Amazon Linux).
+
+    ```
+      instance_type = "t3.micro"
+    ```
+    - Instance type → determines the hardware configuration (CPU, memory, network performance). t3.micro is a small, cost-effective instance type — often eligible for the AWS Free Tier.
+
+    ```
+      key_name = "Terraform"
+    ```
+     - SSH Key Pair → name of the key used for secure remote SSH access to the instance.You must have the corresponding .pem file to connect to this instance.
+     - [Creating key pair ssh](#creating-key-pair-ssh)
+       
+    ```
+      user_data = file("script.sh")
+    ```
+    - User Data → a startup script that runs automatically the first time the instance boots.
+      - Typically used to:
+      - Update the OS packages;
+      - Install software (e.g., Apache, Docker);
+      - Deploy or configure an application.
+
+    ```
+      subnet_id = aws_subnet.public_1.id
+    ```
+    - Places the instance inside a specific VPC subnet. aws_subnet.public_1.id references a subnet resource created elsewhere in Terraform. This determines where in the network (e.g., public or private zone) the instance will reside.
+
+    ```
+      vpc_security_group_ids = [
+          aws_security_group.allow_http_ssh.id
+        ]
+    ```
+    - Security Groups → act as virtual firewalls that control inbound and outbound traffic.
+      - This line associates the instance with a predefined Security Group (allow_http_ssh), which likely allows:
+      - Port 22 for SSH access;
+      - Port 80 for HTTP traffic.
+
+    ```
+      tags = {
+        Name = "amb-prod"
+      }
+    ```
+    - Tags → key–value metadata assigned to AWS resources. The Name tag is commonly used for display in the AWS Management Console.
+    
+    
+  </details>
+
 
 
 
