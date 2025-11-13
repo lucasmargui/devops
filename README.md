@@ -9,47 +9,71 @@ Committed to collaboration, continuous improvement, and accelerating software de
 <details>
   <summary><b>📘 Table of Contents</b></summary>
 
-- [🚀 DevOps Core Concepts](#-devops-core-concepts)
-  - [Continuous Integration (CI)](#continuous-integration-ci)
-  - [Continuous Delivery/Deployment (CD)](#continuous-deliverydeployment-cd)
-  - [Microservices Architecture](#microservices-architecture)
-  - [Infrastructure as Code (IaC)](#infrastructure-as-code-iac)
-  - [Monitoring and Logging](#monitoring-and-logging)
-  - [Communication and Collaboration](#communication-and-collaboration)
+- [🚀 DevOps Core Concepts](#devops-core-concepts)  
+  - [Continuous Integration (CI)](#continuous-integration-ci)  
+  - [Continuous Delivery/Deployment (CD)](#continuous-deliverydeployment-cd)  
+  - [Microservices Architecture](#microservices-architecture)  
+  - [Infrastructure as Code (IaC)](#infrastructure-as-code-iac)  
+  - [Monitoring and Logging](#monitoring-and-logging)  
+  - [Communication and Collaboration](#communication-and-collaboration)  
 
-- [☁️ Infrastructure as Code (IaC) – Public Cloud](#️-infrastructure-as-code-iac--public-cloud)
-  - [🖥️ Creating an Instance Directly in AWS](#️-creating-an-instance-directly-in-aws)
-    - [1️⃣ Prerequisites](#1️⃣-prerequisites)
-    - [2️⃣ Create EC2](#2️⃣-create-ec2)
-    - [3️⃣ Create / Manage SSH Key Pair](#3️⃣-create--manage-ssh-key-pair)
-    - [4️⃣ Create a Security Group (Firewall Rules)](#4️⃣-create-a-security-group-firewall-rules)
-    - [5️⃣ Executing Script](#5️⃣-executing-script)
+- [☁️ Infrastructure as Code (IaC) – Public Cloud](#infrastructure-as-code-iac--public-cloud)  
+  - [Step 1 – Prerequisites](#step-1--prerequisites)  
+  - [Step 2 – EC2](#step-2--ec2)  
+  - [Step 3 – Create / Manage SSH Key Pair](#step-3--create--manage-ssh-key-pair)  
+  - [Step 4 – Create a Security Group (Firewall Rules)](#step-4--create-a-security-group-firewall-rules)  
+  - [Step 5 – Executing Script](#step-5--executing-script)  
 
-- [🔐 Configuring AWS CLI Access Using IAM](#-configuring-aws-cli-access-using-iam)
-  - [🧩 Step 1 – Install AWS CLI](#-step-1--install-aws-cli)
-  - [👥 Step 2 – Create a User Group (IAM Group)](#-step-2--create-a-user-group-iam-group)
-  - [👤 Step 3 – Create an IAM User](#-step-3--create-an-iam-user)
-  - [🔑 Step 4 – Generate Access Keys](#-step-4--generate-access-keys)
-  - [⚙️ Step 5 – Configure the AWS CLI](#️-step-5--configure-the-aws-cli)
+- [🔐 Configuring AWS CLI Access Using IAM](#configuring-aws-cli-access-using-iam)  
+  - [Step 1 – Install AWS CLI](#step-1--install-aws-cli)  
+  - [Step 2 – Create a User Group (IAM Group)](#step-2--create-a-user-group-iam-group)  
+  - [Step 3 – Create an IAM User](#step-3--create-an-iam-user)  
+  - [Step 4 – Generate Access Keys](#step-4--generate-access-keys)  
+  - [Step 5 – Configure the AWS CLI](#step-5--configure-the-aws-cli)  
 
-- [🔑 Creating SSH Key Pair](#-creating-ssh-key-pair)
-  - [🧭 Step 1 – Access the EC2 Service](#-step-1--access-the-ec2-service)
-  - [🗝️ Step 2 – Create a New Key Pair](#️-step-2--create-a-new-key-pair)
+- [🔑 Creating SSH Key Pair](#creating-ssh-key-pair)  
+  - [Step 1 – Access the EC2 Service](#step-1--access-the-ec2-service)  
+  - [Step 2 – Create a New Key Pair](#step-2--create-a-new-key-pair)  
 
-- [💻 Creating an EC2 Instance with Terraform](#-creating-an-ec2-instance-with-terraform)
-  - [⚙️ Step 1 – Install and Configure Terraform](#️-step-1--install-and-configure-terraform)
-  - [🧩 Step 2 – Configure the Terraform Provider (main.tf)](#-step-2--configure-the-terraform-provider-maintf)
-  - [🧱 Step 3 – Initialize the Terraform Project](#-step-3--initialize-the-terraform-project)
-  - [🧱 Step 4 – Create EC2 Instance (ec2.tf)](#-step-4--create-ec2-instance-ec2tf)
-  - [🧱 Step 5 – Configure Network (vpc.tf)](#-step-5--configure-network-vpctf)
-  - [🧱 Step 6 – Create Security Group (security-group.tf)](#-step-6--create-security-group-security-grouptf)
-  - [🧱 Step 7 – Create startup script (script.sh)](#-step-7--create-startup-script-scriptsh)
-  - [⚙️ Step 8 – Deploy the Infrastructure with Terraform](#️-step-8--deploy-the-infrastructure-with-terraform)
- 
-- [🔌 Connecting to the EC2 Instance Using PuTTY](#-connecting-to-the-ec2-instance-using-putty)
-  - [🧭 Step 1 – Get the Public IPv4 Address of Your Instance](#-step-1--get-the-public-ipv4-address-of-your-instance)
-  - [💻 Step 2 – Configure PuTTY](#-step-2--configure-putty)
-  - [🚀 Step 3 – Start the SSH Session](#-step-3--start-the-ssh-session)
+- [💻 Creating an EC2 Instance with Terraform](#creating-an-ec2-instance-with-terraform)  
+  - [Step 1 – Install and Configure Terraform](#step-1--install-and-configure-terraform)  
+  - [Step 2 – Configure the Terraform Provider (main.tf)](#step-2--configure-the-terraform-provider-maintf)  
+  - [Step 3 – Initialize the Terraform Project](#step-3--initialize-the-terraform-project)  
+  - [Step 4 – Create EC2 Instance (ec2.tf)](#step-4--create-ec2-instance-ec2tf)  
+  - [Step 5 – Configure Network (vpc.tf)](#step-5--configure-network-vpctf)  
+  - [Step 6 – Create Security Group (security-group.tf)](#step-6--create-security-group-security-grouptf)  
+  - [Step 7 – Create script (script.sh)](#step-7--create-script-scriptsh)
+  - [Step 8 – Deploy the Infrastructure with Terraform](#step-8--deploy-the-infrastructure-with-terraform)  
+
+- [🔌 Connecting to the EC2 Instance Using PuTTY](#connecting-to-the-ec2-instance-using-putty)  
+  - [Step 1 – Get the Public IPv4 Address of Your Instance](#step-1--get-the-public-ipv4-address-of-your-instance)  
+  - [Step 2 – Configure PuTTY](#step-2--configure-putty)  
+  - [Step 3 – Start the SSH Session](#step-3--start-the-ssh-session)  
+
+- [🧩 Microservices Overview](#microservices-overview)  
+  - [Step 1 – Prerequisites Docker](#step-1--prerequisites-docker)  
+  - [Step 2 – Concept Overview](#step-2--concept-overview)  
+  - [Step 3 – Pulling the Official Apache Image](#step-3--pulling-the-official-apache-image)  
+  - [Step 4 – Running an Apache Container](#step-4--running-an-apache-container)  
+  - [Step 5 – Default Directory Structure](#step-5--default-directory-structure)  
+  - [Step 6 – Stopping and Removing Containers](#step-6--stopping-and-removing-containers)  
+  - [Step 7 – Listing and Removing Images](#step-7--listing-and-removing-images)  
+
+- [🐳 Creating Custom Docker Images and Hosting in Docker Hub](#creating-custom-docker-images-and-hosting-in-docker-hub)  
+  - [Step 1 – Clone the Website Repository](#step-1--clone-the-website-repository)  
+  - [Step 2 – Create the Dockerfile](#step-2--create-the-dockerfile)  
+  - [Step 3 – Build the Custom Image](#step-3--build-the-custom-image)  
+  - [Step 4 – Run a Container from the Custom Image](#step-4--run-a-container-from-the-custom-image)  
+  - [Step 5 – Push the Image to Docker Hub](#step-5--push-the-image-to-docker-hub)  
+  - [Step 6 – Deploying the Image on Remote Servers](#step-6--deploying-the-image-on-remote-servers)  
+
+- [🐳 Launching EC2 with Docker Image from Docker Hub](#launching-ec2-with-docker-image-from-docker-hub)  
+  - [Step 1 – Prepare the Infrastructure with Terraform](#step-1--prepare-the-infrastructure-with-terraform)  
+  - [Step 2 – Apply Terraform Configuration](#step-2--apply-terraform-configuration)  
+  - [Step 3 – Connect to the Server Using PuTTY](#step-3--connect-to-the-server-using-putty)  
+  - [Step 4 – Verify Docker Installation](#step-4--verify-docker-installation)  
+  - [Step 5 – Check Downloaded Docker Images](#step-5--check-downloaded-docker-images)  
+  - [Step 6 – Confirm the Running Container](#step-6--confirm-the-running-container)  
 
 </details>
 
@@ -111,23 +135,22 @@ Promoting cross-team alignment and transparency through shared responsibilities,
 
 ## ☁️ Infrastructure as Code (IaC) – Public Cloud
 
-<details> <summary>Click to show details</summary> 
+Creating an Instance Directly in AWS
 
-### 🖥️ Creating an Instance Directly in AWS
-
-#### 1️⃣ Prerequisites
+### Step 1 – Prerequisites
+  
 - AWS account created and verified (credit card / phone).
 - IAM user with EC2/IAM permissions (root user acceptable for learning).
 - **Windows:** download PuTTY and PuTTYgen.  
 - **Linux/macOS:** ensure `ssh` is installed.
 
-#### 2️⃣ Create EC2
+### Step 2 – EC2  
 <details>
   <summary>Click to show details</summary>
   <img width="1053" height="604" alt="EC2 Creation" src="https://github.com/user-attachments/assets/42738fa8-1f2a-4765-ac32-a5142ea54608" />
 </details>
 
-#### 3️⃣ Create / Manage SSH Key Pair
+### Step 3 – Create / Manage SSH Key Pair
 Create via AWS Console or locally (`ssh-keygen`) and import the public key into AWS.  
 Path: **EC2 → Key Pairs → Create Key Pair**
 
@@ -136,7 +159,7 @@ Path: **EC2 → Key Pairs → Create Key Pair**
   <img width="1067" height="319" alt="Key Pair" src="https://github.com/user-attachments/assets/dacaf6b5-8271-4fc4-874f-743678d677e1" />
 </details>
 
-#### 4️⃣ Create a Security Group (Firewall Rules)
+### Step 4 – Create a Security Group (Firewall Rules)
 Allow:
 - SSH (port 22) — restricted to your IP.
 - HTTP (port 80) — open to all (0.0.0.0/0).
@@ -146,7 +169,7 @@ Allow:
   <img width="1080" height="455" alt="Security Group" src="https://github.com/user-attachments/assets/34a39759-232d-4f39-b00a-0950574281e3" />
 </details>
 
-#### 5️⃣ Executing Script
+### Step 5 – Executing Script
 In **Advanced settings**, attach the `script.sh` file to:
 - Update the VM
 - Install Apache
@@ -167,7 +190,7 @@ This section explains how to set up AWS CLI authentication using **IAM (Identity
 
 <details> <summary>Click to show details</summary> 
 
-### 🧩 Step 1 – Install AWS CLI
+### Step 1 – Install AWS CLI
 
 Install and configure the **AWS Command Line Interface (AWS CLI)** — a unified tool that enables you to manage AWS services directly from your terminal.
 
@@ -178,7 +201,7 @@ Install and configure the **AWS Command Line Interface (AWS CLI)** — a unified
 
 ---
 
-### 👥 Step 2 – Create a User Group (IAM Group)
+### Step 2 – Create a User Group (IAM Group
 
 1. In the AWS Management Console, navigate to **IAM (Identity and Access Management)**.  
 2. On the sidebar, select **Groups → Create Group**.  
@@ -195,7 +218,7 @@ Install and configure the **AWS Command Line Interface (AWS CLI)** — a unified
 
 ---
 
-### 👤 Step 3 – Create an IAM User
+### Step 3 – Create an IAM User
 
 1. Still inside **IAM**, go to **Users → Add User**.  
 2. Set the username to **lucasmarguaws**.  
@@ -212,7 +235,7 @@ Install and configure the **AWS Command Line Interface (AWS CLI)** — a unified
 
 ---
 
-### 🔑 Step 4 – Generate Access Keys
+### Step 4 – Generate Access Keys
 
 1. After the user is created, click the username (**lucasmarguaws**) to view its details.  
 2. Go to the **Security credentials** tab.  
@@ -228,7 +251,7 @@ Install and configure the **AWS Command Line Interface (AWS CLI)** — a unified
 
 ---
 
-### ⚙️ Step 5 – Configure the AWS CLI
+### Step 5 – Configure the AWS CLI
 
 Open your terminal or Command Prompt and run:
 
@@ -260,14 +283,14 @@ This section describes how to create a **Key Pair** in AWS to enable secure **SS
 
 <details> <summary>Click to show details</summary> 
 
-### 🧭 Step 1 – Access the EC2 Service
+### Step 1 – Access the EC2 Service
 
 1. Open the **AWS Management Console**.  
 2. Navigate to the **EC2** service.  
 
 ---
 
-### 🗝️ Step 2 – Create a New Key Pair
+### Step 2 – Create a New Key Pair
 
 1. In the left navigation pane, go to **Key Pairs** under **Network & Security**.  
 2. Click **Create key pair**.  
@@ -295,14 +318,14 @@ C:\Users<YourUser>.ssh\Terraform.ppk
 This section explains how to set up and deploy an **EC2 instance** using **Terraform**, an Infrastructure as Code (IaC) tool.
 
 
-### ⚙️ Step 1 – Install and Configure Terraform
+### Step 1 – Install and Configure Terraform
 
 1. **Download** Terraform from the official site.  
 2. **Add Terraform** to your system’s environment variables so the `terraform.exe` command can be executed from any directory.  
 
 ---
 
-### 🧩 Step 2 – Configure the Terraform Provider (`main.tf`)
+### Step 2 – Configure the Terraform Provider (main.tf)
 
 Before deploying your infrastructure, you must define the **provider configuration**, which tells Terraform which cloud platform to interact with (in this case, **AWS**).
 
@@ -321,7 +344,7 @@ Terraform providers can be found on the **Terraform Registry**, where you can re
 
 ---
 
-### 🧱 Step 3 – Initialize the Terraform Project
+### Step 3 – Initialize the Terraform Project
 
 Once your **provider configuration** is complete, initialize Terraform by running the following command inside your project directory:
 
@@ -335,7 +358,7 @@ This command downloads all required provider plugins and prepares Terraform for 
 
 ---
 
-### 🧱 Step 4 – Create EC2 Instance (ec2.tf)
+### Step 4 – Create EC2 Instance (ec2.tf)
 
 Defines instance creation and configuration.
 
@@ -360,7 +383,7 @@ Defines instance creation and configuration.
 
 ---
 
-### 🧱 Step 5 – Configure Network (vpc.tf)
+### Step 5 – Configure Network (vpc.tf)
 
 Creates the main VPC, subnet, internet gateway, and route table.
 
@@ -368,7 +391,7 @@ Creates the main VPC, subnet, internet gateway, and route table.
 
 ---
 
-### 🧱 Step 6 – Create Security Group (security-group.tf)
+### Step 6 – Create Security Group (security-group.tf)
 
 Create a security group based on the Basic Usage example from the Terraform Registry.
 When creating a virtual machine using Terraform, if no security group is specified, a default security group is automatically assigned to the instance.
@@ -381,7 +404,7 @@ To define a custom security group, you must first create a vpc.tf file to config
 
 ---
 
-### 🧱 Step 7 – Create startup script (script.sh)
+### Step 7 – Create script (script.sh)
 
 This step involves creating a startup script (script.sh) that will be automatically executed on the EC2 instance during initialization through the Terraform user_data parameter in main.tf.
 The script typically includes system setup commands such as updating packages, installing dependencies, configuring services, or deploying application code.
@@ -391,7 +414,7 @@ By automating these actions at instance launch, script.sh ensures a consistent a
 <details> <summary>Click to show details</summary> <img width="768" height="463" alt="image" src="https://github.com/user-attachments/assets/2b19bf32-1df6-4dc0-bdc5-4849c764fef6" /> </details>
 
 
-### ⚙️ Step 8 – Deploy the Infrastructure with Terraform  
+### Step 8 – Deploy the Infrastructure with Terraform
 
 This step covers the **deployment phase**, where Terraform is executed to initialize the working directory, validate the configuration, and provision the infrastructure defined in your `.tf` files.
 
@@ -433,7 +456,7 @@ Before starting, ensure that:
 
 <details> <summary>Click to show details</summary> 
 
-### 🧭 Step 1 – Get the Public IPv4 Address of Your Instance  
+### Step 1 – Get the Public IPv4 Address of Your Instance
 
 1. Go to the **AWS Management Console → EC2 → Instances**
 2. Select your running instance
@@ -443,7 +466,7 @@ You’ll use this IP to establish the SSH connection.
 
 ---
 
-### 💻 Step 2 – Configure PuTTY  
+### Step 2 – Configure PuTTY 
 
 1. Open **PuTTY**
 2. In the **Host Name (or IP address)** field, enter:
@@ -461,7 +484,7 @@ You’ll use this IP to establish the SSH connection.
    
    <details><summary>Click to show details</summary><img width="836" height="669" alt="image" src="https://github.com/user-attachments/assets/3085f7f9-fc0f-4159-962e-6a9f2c30abec" /></details>
    
-### 🚀 Step 3 – Start the SSH Session
+### Step 3 – Start the SSH Session
 
 1. Go back to the Session category
 
@@ -497,13 +520,13 @@ This ensures that the service runs consistently across different environments.
 In this guide, Docker will be used in both **build** (to generate the application image) and **deploy** (to run the container) stages.
 
 
-### 📋 Prerequisites Docker
+### Step 1 – Prerequisites Docker
 
 - Docker installed and running on your machine (or CI runner).  
 - Access to Docker Hub (or another image registry).  
 - Permissions to execute Docker commands (`docker`).
 
-### 🧠 1. Concept Overview
+### Step 2 – Concept Overview
 
 1. Building the container from source code is typically the **developer’s responsibility** or part of the **pipeline automation process**.  
 2. During CI/CD, the pipeline may **receive code from a repository** and automatically **build a new image version** — ensuring consistent deployments.  
@@ -511,7 +534,7 @@ In this guide, Docker will be used in both **build** (to generate the applicatio
 
 ---
 
-### 🐋 2. Pulling the Official Apache Image
+### Step 3 – Pulling the Official Apache Image
 
 To download the official Apache HTTPD image from Docker Hub:
 
@@ -522,9 +545,7 @@ docker pull httpd:latest
 <details><summary>Click to show details</summary><img width="876" height="522" alt="image" src="https://github.com/user-attachments/assets/4a1cc4cd-f712-4fe8-9a8f-f934a2ca8176" /></details>
 
 
----
-
-### ⚙️ 3. Running an Apache Container
+### Step 4 – Running an Apache Container
 
 ```bash
 docker run -dti --name serv-web -p 80:80 httpd:latest
@@ -548,7 +569,7 @@ You should see the default Apache page: “It works!”
 
 ---
 
-📂 4. Default Directory Structure
+### Step 5 – Default Directory Structure
 
 The default document root for the official Apache image is:
 
@@ -566,7 +587,7 @@ docker run -d --name serv-web -p 80:80 -v /path/to/your/site:/usr/local/apache2/
 
 ---
 
-🧹5. Stopping and Removing Containers
+### Step 6 – Stopping and Removing Containers
 
 To stop the container:
 ```
@@ -581,7 +602,7 @@ Note: This command removes only the container — the downloaded image (httpd:la
 
 ---
 
-🧾6. Listing and Removing Images
+### Step 7 – Listing and Removing Images
 
 List existing images:
 ```
@@ -599,14 +620,13 @@ docker image rm <IMAGE_ID>
 
 ---
 
-## 🐳 Creating and Hosting Custom Docker Images for Future Pipelines
-
+## 🐳 Creating Custom Docker Images and Hosting in Docker Hub
 This section demonstrates how to build and host a **custom Docker image** that encapsulates a web application (in this case, a site running on Apache).  
 This image can later be used within automated **CI/CD pipelines** or deployed on remote servers such as AWS.
 
 ---
 
-### 🌐 Step 1 – Clone the Website Repository
+### Step 1 – Clone the Website Repository
 
 First, install **Git** and clone the website repository that will be containerized.
 
@@ -616,7 +636,7 @@ git clone https://github.com/denilsonbonatti/mundo-invertido
 
 ---
 
-### 🧱 Step 2 – Create the Dockerfile
+### Step 2 – Create the Dockerfile
 
 Navigate to the root directory of the cloned project and create a Dockerfile.
 This file defines the environment, dependencies, and configuration for the containerized application.
@@ -640,7 +660,7 @@ EXPOSE 80
 
 ---
 
-### 🏗️ Step 3 – Build the Custom Image
+### Step 3 – Build the Custom Image
 
 Now, build the Docker image using the docker build command.
 
@@ -660,7 +680,7 @@ docker build -t lucasmargui/meusite-bootcamp-devops:1.0 .
 
 ---
 
-### 🚀 Step 4 – Run a Container from the Custom Image
+### Step 4 – Run a Container from the Custom Image
 
 Once the image is built, run a container to test it locally.
 
@@ -681,7 +701,7 @@ Now you can access your website locally by navigating to http://localhost in you
 
 ---
 
-### ☁️ Step 5 – Push the Image to Docker Hub
+### Step 5 – Push the Image to Docker Hub
 
 To make your image publicly available, log in to Docker Hub and push it:
 
@@ -694,12 +714,89 @@ This will allow others (and your pipelines) to pull and use the same image.
 
 ---
 
-### 🌍 Step 6 – Deploying the Image on Remote Servers
+### Step 6 – Deploying the Image on Remote Servers
 
 Once the image is hosted on Docker Hub, it can be deployed anywhere — including AWS EC2 instances or Kubernetes clusters — by simply running:
 
 ```
 docker run -dti -p 80:80 lucasmargui/meusite-bootcamp-devops:1.0
+```
+
+---
+
+## 🐳 Launching EC2 with Docker Image from Docker Hub
+
+### Step 1 – Prepare the Infrastructure with Terraform
+
+Since we don’t yet have a virtual machine in the cloud, we will use **Terraform** to:
+- Provision a new **Ubuntu** EC2 instance on AWS.  
+- Automatically update and configure the machine.  
+- Install **Docker** and deploy our containerized application.
+
+After building the Docker image and publishing it to Docker Hub, update your script.sh file to reference the image’s repository path.
+This ensures that when the virtual machine is launched, the script automatically pulls and runs the correct Docker image from Docker Hub.
+
+<details><summary>Click to show details</summary><img width="940" height="307" alt="image" src="https://github.com/user-attachments/assets/c7285748-ac85-4943-a867-9d42c06b489b" /></details>
+
+
+---
+
+### Step 2 – Apply Terraform Configuration
+
+
+Once your Terraform configuration files are ready (`main.tf`, `provider.tf`, etc.), execute the following commands:
+
+```bash
+terraform plan
+terraform apply
+```
+
+These commands will:
+
+- Create the defined infrastructure on AWS.
+- Deploy your Ubuntu instance with Docker automatically installed and configured.
+
+---
+
+### Step 3 – Connect to the Server Using PuTTY
+
+After the instance is created, use PuTTY to connect to your AWS EC2 instance.
+
+- Open PuTTY.
+- Enter the Public IPv4 Address of your EC2 instance.
+- Load your private key (.ppk) to authenticate.
+- Connect using the ubuntu user.
+
+Once connected, you will see the terminal prompt for the Ubuntu user.
+
+---
+
+### Step 4 – Verify Docker Installation
+
+Run the following command to confirm Docker is installed:
+
+```
+docker --version
+```
+
+---
+
+### Step 5 – Check Downloaded Docker Images
+
+To ensure the Docker image has been pulled from Docker Hub, run:
+
+```
+sudo docker images
+```
+
+---
+
+### Step 6 – Confirm the Running Container
+
+Finally, check if the container is up and running:
+
+```
+sudo docker ps
 ```
 
 ---
