@@ -43,8 +43,16 @@ Committed to collaboration, continuous improvement, and accelerating software de
   - [🧱 Step 4 – Create EC2 Instance (ec2.tf)](#-step-4--create-ec2-instance-ec2tf)
   - [🧱 Step 5 – Configure Network (vpc.tf)](#-step-5--configure-network-vpctf)
   - [🧱 Step 6 – Create Security Group (security-group.tf)](#-step-6--create-security-group-security-grouptf)
+  - [🧱 Step 7 – Create startup script (script.sh)](#-step-7--create-startup-script-scriptsh)
+  - [⚙️ Step 8 – Deploy the Infrastructure with Terraform](#️-step-8--deploy-the-infrastructure-with-terraform)
+ 
+- [🔌 Connecting to the EC2 Instance Using PuTTY](#-connecting-to-the-ec2-instance-using-putty)
+  - [🧭 Step 1 – Get the Public IPv4 Address of Your Instance](#-step-1--get-the-public-ipv4-address-of-your-instance)
+  - [💻 Step 3 – Configure PuTTY](#-step-3--configure-putty)
+  - [🚀 Step 4 – Start the SSH Session](#-step-4--start-the-ssh-session)
 
 </details>
+
 
 
 ## 🚀 DevOps Core Concepts
@@ -335,6 +343,7 @@ Defines instance creation and configuration.
   ```
 
 </details>
+
 ---
 
 ### 🧱 Step 5 – Configure Network (vpc.tf)
@@ -348,6 +357,8 @@ Creates the main VPC, subnet, internet gateway, and route table.
 ### 🧱 Step 6 – Create Security Group (security-group.tf)
 
 Create a security group based on the Basic Usage example from the Terraform Registry.
+When creating a virtual machine using Terraform, if no security group is specified, a default security group is automatically assigned to the instance.
+To define a custom security group, you must first create a vpc.tf file to configure a Virtual Private Cloud (VPC) — specifying the IP range, enabling DNS resolution, and allowing hostname assignment.
 
 - Use aws_vpc.main.id from vpc.tf
 - Reuse the same security group name (allow_http_ssh) referenced in EC2
@@ -355,6 +366,97 @@ Create a security group based on the Basic Usage example from the Terraform Regi
 <details> <summary>Click to show details</summary> <img width="586" height="879" alt="Security Group Terraform" src="https://github.com/user-attachments/assets/2211a3bb-3ada-4d0d-8d31-62be3f67538b" /> </details>
 
 ---
+
+### 🧱 Step 7 – Create startup script (script.sh)
+
+This step involves creating a startup script (script.sh) that will be automatically executed on the EC2 instance during initialization through the Terraform user_data parameter in main.tf.
+The script typically includes system setup commands such as updating packages, installing dependencies, configuring services, or deploying application code.
+
+By automating these actions at instance launch, script.sh ensures a consistent and ready-to-use environment without requiring manual configuration after provisioning.
+
+<details> <summary>Click to show details</summary> <img width="768" height="463" alt="image" src="https://github.com/user-attachments/assets/2b19bf32-1df6-4dc0-bdc5-4849c764fef6" /> </details>
+
+
+### ⚙️ Step 8 – Deploy the Infrastructure with Terraform  
+
+This step covers the **deployment phase**, where Terraform is executed to initialize the working directory, validate the configuration, and provision the infrastructure defined in your `.tf` files.
+
+Using the **Terraform CLI commands** below ensures that all configurations are correctly loaded, dependencies are initialized, and the AWS resources are deployed according to your defined setup.
+
+
+
+#### ⚙️ Execution Steps  
+
+1. **Initialize Terraform**  
+   Run the command below to download the required provider plugins and initialize your working directory:  
+   ```bash
+   terraform.exe init
+   ```
+2. Validate and Plan the Deployment
+   Preview the execution plan and detect potential configuration errors:
+   ```bash
+   terraform.exe plan
+   ```
+3. Apply the Configuration
+   Deploy and configure the infrastructure on AWS as defined in your Terraform files
+   ```bash
+   terraform.exe apply
+   ``` 
+---
+
+## 🔌 Connecting to the EC2 Instance Using PuTTY
+
+This section explains how to connect to your AWS EC2 instance using **PuTTY**, a popular SSH client for Windows.  
+You’ll use the SSH key pair created earlier in [🔑 Creating SSH Key Pair](#-creating-ssh-key-pair) for secure authentication.
+
+Before starting, ensure that:
+- You have the `.ppk` key file downloaded from AWS
+- **PuTTY**  are installed on your system
+
+---
+
+
+
+### 🧭 Step 1 – Get the Public IPv4 Address of Your Instance  
+
+1. Go to the **AWS Management Console → EC2 → Instances**
+2. Select your running instance
+3. Copy the **Public IPv4 address** shown in the details panel  
+
+You’ll use this IP to establish the SSH connection.
+
+---
+
+### 💻 Step 3 – Configure PuTTY  
+
+1. Open **PuTTY**
+2. In the **Host Name (or IP address)** field, enter:
+   ```bash
+   <your-public-ip>
+   ```
+   <details><summary>Click to show details</summary>  <img width="756" height="529" alt="image" src="https://github.com/user-attachments/assets/80baa25e-4959-4fa7-b49e-91a77c7c4298" /></details>
+  
+3. In the left sidebar, navigate to:
+  ```
+    Connection → SSH → Auth → Credentials
+  ```
+
+4. Click Browse and select your .ppk key file
+   
+   <details><summary>Click to show details</summary><img width="836" height="669" alt="image" src="https://github.com/user-attachments/assets/3085f7f9-fc0f-4159-962e-6a9f2c30abec" /></details>
+   
+🚀 Step 4 – Start the SSH Session
+
+1. Go back to the Session category
+
+2. Click Open
+
+3. When prompted, click Yes to trust the host key
+
+4. Once the terminal connection is established, note that since the virtual machine was created using an Ubuntu image, the default user is "ubuntu".
+
+  <details><summary>Click to show details</summary><img width="937" height="406" alt="image" src="https://github.com/user-attachments/assets/0d0ee7ca-d98f-4df0-8fee-599c38ea8ca7" /></details>
+
 
 
 
