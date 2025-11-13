@@ -4,7 +4,6 @@ DevOps professional focused on bridging development and operations to deliver **
 Experienced in CI/CD, Infrastructure as Code, cloud environments, containerization, monitoring, and microservices.  
 Committed to collaboration, continuous improvement, and accelerating software delivery with quality and efficiency.
 
----
 
 <details>
   <summary><b>📘 Table of Contents</b></summary>
@@ -75,6 +74,25 @@ Committed to collaboration, continuous improvement, and accelerating software de
   - [Step 5 – Check Downloaded Docker Images](#step-5--check-downloaded-docker-images)  
   - [Step 6 – Confirm the Running Container](#step-6--confirm-the-running-container)  
 
+- [☁️ Create GitLab directory/repository](#-create-gitlab-directoryrepository)
+  - [Step 1 – Create GitLab Account](#step-1--create-gitlab-account)
+  - [Step 2 – Create a New Project](#step-2--create-a-new-project)
+  - [Step 3 – Initialize Local Repository](#step-3--initialize-local-repository)
+  - [Step 4 – Link Repository and Push Code](#step-4--link-repository-and-push-code)
+  - [Step 5 – Provision EC2 Instance with Terraform](#step-5--provision-ec2-instance-with-terraform)
+  - [Step 6 – Install GitLab Runner](#step-6--install-gitlab-runner)
+  - [Step 7 – Register GitLab Runner](#step-7--register-gitlab-runner)
+  - [Step 8 – Configure GitLab Runner User](#step-8--configure-gitlab-runner-user)
+  - [Step 9 – Docker Hub Authentication](#step-9--docker-hub-authentication)
+
+- [🐳 CI/CD Pipeline – Containerized Application](#-ci-cd-pipeline--containerized-application)
+  - [Step 1 – Configure .gitignore](#step-1--configure-gitignore)
+  - [Step 2 – Create Dockerfile](#step-2--create-dockerfile)
+  - [Step 3 – Configure GitLab Pipeline](#step-3--configure-gitlab-pipeline)
+  - [Step 4 – Build Docker Image](#step-4--build-docker-image)
+  - [Step 5 – Deploy Container](#step-5--deploy-container)
+  - [Step 6 – Update Application Version](#step-6--update-application-version)
+
 </details>
 
 ---
@@ -136,6 +154,9 @@ Promoting cross-team alignment and transparency through shared responsibilities,
 ## ☁️ Infrastructure as Code (IaC) – Public Cloud
 
 Creating an Instance Directly in AWS
+
+<details>
+  <summary>Click to show details</summary>
 
 ### Step 1 – Prerequisites
   
@@ -519,6 +540,8 @@ This ensures that the service runs consistently across different environments.
 
 In this guide, Docker will be used in both **build** (to generate the application image) and **deploy** (to run the container) stages.
 
+<details>
+  <summary>Click to show details</summary>
 
 ### Step 1 – Prerequisites Docker
 
@@ -618,13 +641,16 @@ docker rmi httpd:latest
 docker image rm <IMAGE_ID>
 ```
 
+</details>
+
 ---
 
 ## 🐳 Creating Custom Docker Images and Hosting in Docker Hub
 This section demonstrates how to build and host a **custom Docker image** that encapsulates a web application (in this case, a site running on Apache).  
 This image can later be used within automated **CI/CD pipelines** or deployed on remote servers such as AWS.
 
----
+<details>
+  <summary>Click to show details</summary>
 
 ### Step 1 – Clone the Website Repository
 
@@ -722,9 +748,16 @@ Once the image is hosted on Docker Hub, it can be deployed anywhere — includin
 docker run -dti -p 80:80 lucasmargui/meusite-bootcamp-devops:1.0
 ```
 
+</details>
+
 ---
 
 ## 🐳 Launching EC2 with Docker Image from Docker Hub
+
+This section covers deploying an EC2 instance on AWS and running a Docker container using an image pulled from Docker Hub.
+
+<details>
+  <summary>Click to show details</summary>
 
 ### Step 1 – Prepare the Infrastructure with Terraform
 
@@ -799,6 +832,8 @@ Finally, check if the container is up and running:
 sudo docker ps
 ```
 
+</details>
+
 ---
 
 ## ☁️ Create GitLab directory/repository
@@ -813,7 +848,9 @@ GitLab is an all-in-one DevOps platform offering:
 
 Our goal is to publish code, build containers, and deploy them to a Kubernetes cluster automatically.
 
----
+
+<details>
+  <summary>Click to show details</summary>
 
 ### Step 1 – Create GitLab Account
 
@@ -1013,4 +1050,186 @@ docker login -u "your-username"
 
 <details><summary>Click to show details</summary> <img width="945" height="302" alt="image" src="https://github.com/user-attachments/assets/6f616e78-4542-4e26-aa5f-d988dfb565b9" /> </details>
 
+</details>
+
 ---
+
+## 🐳 CI/CD Pipeline – Containerized Application
+
+<details>
+  <summary>Click to show details</summary>
+
+### Step 1 – Configure .gitignore
+
+- Create a `.gitignore` file at the root of the repository.  
+- Add files and directories that should not be versioned, such as Terraform state files or logs.
+  
+```
+.terraform*
+terraform*
+```
+
+---
+
+### Step 2 – Create Dockerfile
+
+Inside your application directory, create a Dockerfile.
+
+This file will be used to build the container image.
+
+Minimal example:
+
+```bash
+FROM httpd:latest
+
+WORKDIR /usr/local/apache2/htdocs/
+
+COPY * /usr/local/apache2/htdocs/
+
+EXPOSE 80
+```
+
+<details><summary>Click to show details</summary> <img width="945" height="217" alt="image" src="https://github.com/user-attachments/assets/8def7026-6029-4e43-a254-1626aae074e9" /> </details>
+
+---
+
+### Step 3 – Configure GitLab Pipeline
+
+Create a .gitlab-ci.yml file at the root of the repository.
+
+Divide the pipeline into stages (main sections) and jobs (tasks inside stages).
+
+```
+stages:
+  - build
+  - deploy
+variables:
+  GLOBAL_VAR: "2.0"
+```
+
+<details><summary>Click to show details</summary> <img width="241" height="126" alt="image" src="https://github.com/user-attachments/assets/ae4d1dea-efd2-473d-8416-ca22c9eb2e26" /> </details>
+
+---
+
+### Step 4 – Build Docker Image
+
+- Job to build and push the Docker image:
+
+```
+criar_imagens:
+  stage: build
+  tags:
+    - aws
+  script:
+  - docker build -t lucasmargui/app-bootcamp-devops:$GLOBAL_VAR app/.
+  - docker push lucasmargui/app-bootcamp-devops:$GLOBAL_VAR
+```
+
+1. Stage: build
+- This job is part of the build stage in the CI/CD pipeline.
+
+2. Tags: aws
+- Specifies that this job should run on runners tagged with aws (created in e2c).
+
+3. Script:
+
+- docker build -t lucasmargui/app-bootcamp-devops:$GLOBAL_VAR app/
+Builds a Docker image using the Dockerfile located in the app/ directory.
+The image name will be lucasmargui/app-bootcamp-devops and the tag will be set using the environment variable $GLOBAL_VAR.
+
+- docker push lucasmargui/app-bootcamp-devops:$GLOBAL_VAR
+Pushes the built Docker image to the remote Docker repository.
+
+
+<details><summary>Click to show details</summary> <img width="582" height="155" alt="image" src="https://github.com/user-attachments/assets/20de9ab6-8057-464a-b3a0-4c957d7a53a2" /> </details>
+
+- Add and commit the new files:
+
+```
+git add .
+git commit -m "Create CI/CD Pipeline"
+git push --set-upstream origin main
+```
+
+---
+
+### Step 5 – Deploy Container
+
+- Job to run the container on the production server:
+  
+```
+executar_imagens:
+  stage: deploy
+  needs:
+    - criar_imagens
+  tags:
+    - aws
+  before_script:
+  - docker rm $(docker ps -a -q) --force
+  script:
+  - docker run -dti --name web-server -p 80:80 lucasmargui/app-bootcamp-devops:$GLOBAL_VAR
+  after_script:
+  - docker system prune --force
+```
+
+1. Stage: deploy
+- This job runs in the deploy stage of the CI/CD pipeline.
+
+2. Dependencies: needs: criar_imagens
+- Ensures this job only runs after the criar_imagens job has successfully completed.
+
+3. Tags: aws
+- Specifies that this job should run on runners tagged with aws.
+
+4. Before Script:
+```
+docker rm $(docker ps -a -q) --force
+```
+- Removes all existing Docker containers to ensure a clean environment before starting the new container.
+
+5. Script:
+```
+docker run -dti --name web-server -p 80:80 lucasmargui/app-bootcamp-devops:$GLOBAL_VAR
+```
+- Runs the Docker image in a detached and interactive terminal mode.
+- Names the container web-server
+- Maps port 80 on the host to port 80 in the container
+- Uses the image lucasmargui/app-bootcamp-devops with the tag $GLOBAL_VAR.
+
+6. After Script:
+```
+docker system prune --force
+```
+- Cleans up unused Docker objects to free disk space and keep the environment tidy.
+
+<details><summary>Click to show details</summary> <img width="712" height="284" alt="image" src="https://github.com/user-attachments/assets/74a2dca4-b9f1-4bed-a21a-3f0988ef5e4a" /> </details>
+
+
+- Add, commit, and push:
+
+```
+git add .
+git commit -m "Deploy container"
+git push
+```
+
+- Verify in GitLab that the container is running successfully.
+
+---
+
+### Step 6 – Update Application Version
+
+To update the application (e.g., version 2.0 → 3.0):
+
+```
+variables:
+  GLOBAL_VAR: "3.0"
+```
+
+
+<details><summary>Click to show details</summary> <img width="524" height="443" alt="image" src="https://github.com/user-attachments/assets/cc405bed-a7a6-4095-b8d3-0f7281f91d96" /> </details>
+
+</details>
+
+---
+
