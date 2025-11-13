@@ -48,14 +48,16 @@ Committed to collaboration, continuous improvement, and accelerating software de
  
 - [🔌 Connecting to the EC2 Instance Using PuTTY](#-connecting-to-the-ec2-instance-using-putty)
   - [🧭 Step 1 – Get the Public IPv4 Address of Your Instance](#-step-1--get-the-public-ipv4-address-of-your-instance)
-  - [💻 Step 3 – Configure PuTTY](#-step-3--configure-putty)
-  - [🚀 Step 4 – Start the SSH Session](#-step-4--start-the-ssh-session)
+  - [💻 Step 2 – Configure PuTTY](#-step-2--configure-putty)
+  - [🚀 Step 3 – Start the SSH Session](#-step-3--start-the-ssh-session)
 
 </details>
 
-
+---
 
 ## 🚀 DevOps Core Concepts
+
+<details> <summary>Click to show details</summary> 
 
 ### Continuous Integration (CI)
 Automated process of integrating code changes frequently into a shared repository with immediate validation through testing.
@@ -103,9 +105,13 @@ Collecting and analyzing application and infrastructure data to detect issues, e
 ### Communication and Collaboration
 Promoting cross-team alignment and transparency through shared responsibilities, tools, and workflows.
 
+</details>
+
 ---
 
 ## ☁️ Infrastructure as Code (IaC) – Public Cloud
+
+<details> <summary>Click to show details</summary> 
 
 ### 🖥️ Creating an Instance Directly in AWS
 
@@ -151,13 +157,15 @@ In **Advanced settings**, attach the `script.sh` file to:
   <img width="1042" height="724" alt="User Data Script" src="https://github.com/user-attachments/assets/4a4aa97b-4375-481e-bde7-ed0335215a24" />
 </details>
 
+</details>
+
 ---
 
 ## 🔐 Configuring AWS CLI Access Using IAM
 
 This section explains how to set up AWS CLI authentication using **IAM (Identity and Access Management)**, allowing secure command-line access to your AWS resources.
 
----
+<details> <summary>Click to show details</summary> 
 
 ### 🧩 Step 1 – Install AWS CLI
 
@@ -241,13 +249,16 @@ Default output format [None]: json
 
 ✅ Once completed, your AWS CLI is fully authenticated and ready to execute AWS commands or apply Terraform scripts securely and automatically.
 
+</details>
+
 ---
 
 ## 🔑 Creating SSH Key Pair
 
 This section describes how to create a **Key Pair** in AWS to enable secure **SSH access** to your EC2 instance.
 
----
+
+<details> <summary>Click to show details</summary> 
 
 ### 🧭 Step 1 – Access the EC2 Service
 
@@ -273,13 +284,16 @@ C:\Users<YourUser>.ssh\Terraform.ppk
 
 ✅ This key pair will later be referenced in Terraform to allow **SSH access** to the EC2 instance.
 
+</details>
+
 ---
 
 ## 💻 Creating an EC2 Instance with Terraform
 
+<details> <summary>Click to show details</summary> 
+
 This section explains how to set up and deploy an **EC2 instance** using **Terraform**, an Infrastructure as Code (IaC) tool.
 
----
 
 ### ⚙️ Step 1 – Install and Configure Terraform
 
@@ -402,6 +416,9 @@ Using the **Terraform CLI commands** below ensures that all configurations are c
    ```bash
    terraform.exe apply
    ``` 
+
+</details>
+
 ---
 
 ## 🔌 Connecting to the EC2 Instance Using PuTTY
@@ -413,9 +430,8 @@ Before starting, ensure that:
 - You have the `.ppk` key file downloaded from AWS
 - **PuTTY**  are installed on your system
 
----
 
-
+<details> <summary>Click to show details</summary> 
 
 ### 🧭 Step 1 – Get the Public IPv4 Address of Your Instance  
 
@@ -427,7 +443,7 @@ You’ll use this IP to establish the SSH connection.
 
 ---
 
-### 💻 Step 3 – Configure PuTTY  
+### 💻 Step 2 – Configure PuTTY  
 
 1. Open **PuTTY**
 2. In the **Host Name (or IP address)** field, enter:
@@ -445,7 +461,7 @@ You’ll use this IP to establish the SSH connection.
    
    <details><summary>Click to show details</summary><img width="836" height="669" alt="image" src="https://github.com/user-attachments/assets/3085f7f9-fc0f-4159-962e-6a9f2c30abec" /></details>
    
-🚀 Step 4 – Start the SSH Session
+### 🚀 Step 3 – Start the SSH Session
 
 1. Go back to the Session category
 
@@ -455,7 +471,11 @@ You’ll use this IP to establish the SSH connection.
 
 4. Once the terminal connection is established, note that since the virtual machine was created using an Ubuntu image, the default user is "ubuntu".
 
-  <details><summary>Click to show details</summary><img width="937" height="406" alt="image" src="https://github.com/user-attachments/assets/0d0ee7ca-d98f-4df0-8fee-599c38ea8ca7" /></details>
+    <details><summary>Click to show details</summary><img width="937" height="406" alt="image" src="https://github.com/user-attachments/assets/0d0ee7ca-d98f-4df0-8fee-599c38ea8ca7" /></details>
+
+</details>
+
+---
 
 
 
