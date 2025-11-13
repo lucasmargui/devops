@@ -477,6 +477,232 @@ You’ll use this IP to establish the SSH connection.
 
 ---
 
+## 🧩 Microservices Overview
+
+Microservices are a collection of small, independent, and autonomous services designed to make applications scalable and modular.  
+Each service handles a specific functionality, allowing for independent scaling — for instance, if one service experiences high demand, only that microservice needs to be scaled.
+
+By decomposing the application into smaller parts, teams can build and deploy components independently using different technologies.
+
+**Docker** enables packaging each microservice and its dependencies into a container — a single logical unit.  
+This ensures that the service runs consistently across different environments.
+
+| Lifecycle Phase | Tool Used     |
+|------------------|---------------|
+| **Build**        | Docker        |
+| **Deploy**       | Docker        |
+| **Operate**      | Kubernetes    |
+| **Monitor**      | AWS           |
+
+In this guide, Docker will be used in both **build** (to generate the application image) and **deploy** (to run the container) stages.
+
+
+### 📋 Prerequisites Docker
+
+- Docker installed and running on your machine (or CI runner).  
+- Access to Docker Hub (or another image registry).  
+- Permissions to execute Docker commands (`docker`).
+
+### 🧠 1. Concept Overview
+
+1. Building the container from source code is typically the **developer’s responsibility** or part of the **pipeline automation process**.  
+2. During CI/CD, the pipeline may **receive code from a repository** and automatically **build a new image version** — ensuring consistent deployments.  
+3. Removing a **container** does **not** remove its **base image** — images must be deleted manually if needed.
+
+---
+
+### 🐋 2. Pulling the Official Apache Image
+
+To download the official Apache HTTPD image from Docker Hub:
+
+```bash
+docker pull httpd:latest
+```
+
+<details><summary>Click to show details</summary><img width="876" height="522" alt="image" src="https://github.com/user-attachments/assets/4a1cc4cd-f712-4fe8-9a8f-f934a2ca8176" /></details>
+
+
+---
+
+### ⚙️ 3. Running an Apache Container
+
+```bash
+docker run -dti --name serv-web -p 80:80 httpd:latest
+```
+
+This command starts an Apache container on port 80.
+When you access http://localhost in your browser, you should see the message “It works!” confirming that the container is running successfully.
+
+Flag explanation:
+
+- -d — Runs the container in detached mode (background).
+
+- -t -i — Allocates a pseudo-TTY and keeps STDIN open (useful for debugging).
+
+- --name serv-web — Assigns a name to the container.
+
+- -p 80:80 — Maps port 80 of the host to port 80 inside the container.
+
+Now, open your browser and visit http://localhost/.
+You should see the default Apache page: “It works!”
+
+---
+
+📂 4. Default Directory Structure
+
+The default document root for the official Apache image is:
+
+```
+/usr/local/apache2/htdocs
+```
+
+Always refer to the image documentation since the internal directory paths may differ between versions.
+
+If you want to serve local files (for development), mount a volume:
+
+```
+docker run -d --name serv-web -p 80:80 -v /path/to/your/site:/usr/local/apache2/htdocs httpd:latest
+```
+
+---
+
+🧹5. Stopping and Removing Containers
+
+To stop the container:
+```
+docker stop serv-web
+```
+
+To remove it (forcefully if needed):
+```
+docker rm serv-web --force
+```
+Note: This command removes only the container — the downloaded image (httpd:latest) remains on the system.
+
+---
+
+🧾6. Listing and Removing Images
+
+List existing images:
+```
+docker images
+# or
+docker image ls
+```
+
+Remove a specific image:
+```
+docker rmi httpd:latest
+# or by image ID
+docker image rm <IMAGE_ID>
+```
+
+---
+
+## 🐳 Creating and Hosting Custom Docker Images for Future Pipelines
+
+This section demonstrates how to build and host a **custom Docker image** that encapsulates a web application (in this case, a site running on Apache).  
+This image can later be used within automated **CI/CD pipelines** or deployed on remote servers such as AWS.
+
+---
+
+### 🌐 Step 1 – Clone the Website Repository
+
+First, install **Git** and clone the website repository that will be containerized.
+
+```bash
+git clone https://github.com/denilsonbonatti/mundo-invertido
+```
+
+---
+
+### 🧱 Step 2 – Create the Dockerfile
+
+Navigate to the root directory of the cloned project and create a Dockerfile.
+This file defines the environment, dependencies, and configuration for the containerized application.
+
+The Apache container serves static files from the /usr/local/apache2/htdocs/ directory, as indicated in the official Docker Hub documentation.
+
+Example Dockerfile:
+
+```
+# Use the official Apache HTTP server image
+FROM httpd:latest
+
+WORKDIR /usr/local/apache2/htdocs/
+
+# Copy website files into the Apache web directory
+COPY . /usr/local/apache2/htdocs/
+
+EXPOSE 80
+```
+<details><summary>Click to show details</summary><img width="955" height="274" alt="image" src="https://github.com/user-attachments/assets/c348d591-0893-4b62-b67c-33970d3e71e2" /></details>
+
+---
+
+### 🏗️ Step 3 – Build the Custom Image
+
+Now, build the Docker image using the docker build command.
+
+```
+docker build -t my-apache2
+```
+
+However, since this image will be published on Docker Hub, replace my-apache2 with your Docker Hub username and a meaningful tag.
+
+```
+docker build -t lucasmargui/meusite-bootcamp-devops:1.0 .
+```
+
+<details><summary>Click to show details</summary><img width="482" height="310" alt="image" src="https://github.com/user-attachments/assets/2eedda0d-987d-4608-be44-46d55827c2fe" /></details>
+
+<details><summary>Click to show details</summary><img width="942" height="572" alt="image" src="https://github.com/user-attachments/assets/31f8da39-3340-4c47-a74d-a3248914862c" /></details>
+
+---
+
+### 🚀 Step 4 – Run a Container from the Custom Image
+
+Once the image is built, run a container to test it locally.
+
+```
+docker run -dti --name meu-httpd -p 80:80 lucasmargui/meusite-bootcamp-devops:1.0
+```
+
+Check if the container is running successfully:
+
+```
+docker ps
+```
+
+<details><summary>Click to show details</summary><img width="952" height="81" alt="image" src="https://github.com/user-attachments/assets/b8bf445c-7220-404d-9f90-c96353f8bc34" /></details>
+
+
+Now you can access your website locally by navigating to http://localhost in your browser.
+
+---
+
+### ☁️ Step 5 – Push the Image to Docker Hub
+
+To make your image publicly available, log in to Docker Hub and push it:
+
+```
+docker login
+docker push lucasmargui/meusite-bootcamp-devops:1.0
+```
+
+This will allow others (and your pipelines) to pull and use the same image.
+
+---
+
+### 🌍 Step 6 – Deploying the Image on Remote Servers
+
+Once the image is hosted on Docker Hub, it can be deployed anywhere — including AWS EC2 instances or Kubernetes clusters — by simply running:
+
+```
+docker run -dti -p 80:80 lucasmargui/meusite-bootcamp-devops:1.0
+```
+
+---
 
 
 
